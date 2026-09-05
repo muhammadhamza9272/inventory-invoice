@@ -1,0 +1,28 @@
+# Build output
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+.ninja*
+
+# Qt Creator
+.qtcreator/*
+!.qtcreator/
+
+# IDE
+.vscode/
+.idea/
+*.user
+
+# macOS
+.DS_Store
+*.app/
+*.dmg
+
+# Windows
+*.exe
+*.msi
+
+# Editors
+*~
