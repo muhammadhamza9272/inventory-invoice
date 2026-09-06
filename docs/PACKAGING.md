@@ -88,9 +88,15 @@ The app is fully demoable out of the box:
 
 ```bash
 # Seed sample data, open the Reports tab
-./build/Inventory & Invoice.app/Contents/MacOS/inventory_invoice --demo --tab=3
+./build/Inventory & Invoice.app/Contents/MacOS/inventory_invoice --demo --tab 3
 # Seed + immediately open the New Invoice editor
-... --demo --new-invoice
+./build/inventory_invoice --demo --new-invoice
+# Edit an existing invoice (e.g. invoice #1) — shows line items
+./build/inventory_invoice --demo --edit-invoice 1
+# Export the latest seeded invoice to PDF and exit (no window shown)
+./build/inventory_invoice --demo --demo-pdf /tmp/out
 ```
 
-`--tab=<0..3>` selects Inventory / Invoices / Customers / Reports.
+`--tab <0..3>` selects Inventory / Invoices / Customers / Reports (space-separated, not `=`).
+`--edit-invoice <id>` opens an existing invoice for editing with pre-filled line items.
+`--demo-pdf <dir>` exports the most recent invoice to a PDF file and exits.

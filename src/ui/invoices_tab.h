@@ -17,6 +17,8 @@ class InvoicesTab : public QWidget
 public:
     explicit InvoicesTab(Database &db, QWidget *parent = nullptr);
     void openNewInvoiceDialog();
+    // Opens an existing invoice for editing (used by the --edit-invoice flag).
+    void openEditInvoiceDialog(int invoiceId);
 
 private:
     void onNewInvoice();

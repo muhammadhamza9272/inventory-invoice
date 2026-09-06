@@ -83,7 +83,11 @@ void InvoicesTab::openNewInvoiceDialog()
 
 void InvoicesTab::onEditInvoice()
 {
-    const int id = selectedInvoiceId();
+    openEditInvoiceDialog(selectedInvoiceId());
+}
+
+void InvoicesTab::openEditInvoiceDialog(int id)
+{
     if (id < 0)
         return;
 

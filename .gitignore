@@ -19,6 +19,8 @@ Makefile
 .DS_Store
 *.app/
 *.dmg
+# Quick Look-generated thumbnails
+*.pdf.png
 
 # Windows
 *.exe

@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(Database &db, int initialTab = 0, QWidget *parent = nullptr);
     void openInvoiceEditorForNewInvoice();
+    void openInvoiceEditorForInvoice(int invoiceId);
 
 private:
     void setupUi();

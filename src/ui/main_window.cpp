@@ -118,6 +118,14 @@ void MainWindow::openInvoiceEditorForNewInvoice()
         tab->openNewInvoiceDialog();
 }
 
+void MainWindow::openInvoiceEditorForInvoice(int invoiceId)
+{
+    m_tabs->setCurrentIndex(1); // Invoices tab
+    auto *tab = qobject_cast<InvoicesTab *>(m_tabs->widget(1));
+    if (tab)
+        tab->openEditInvoiceDialog(invoiceId);
+}
+
 void MainWindow::onAddProduct()
 {
     ProductDialog dlg(this);

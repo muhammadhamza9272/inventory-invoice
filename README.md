@@ -4,10 +4,9 @@ A cross-platform desktop inventory and invoicing application for small
 businesses. Built with **Qt 6 (Widgets)** and **SQLite** — single-file
 database, no server required.
 
-> This is the flagship portfolio project of a C++/Qt developer. It is
-> engineered to be production-quality: clean MVC-style layering, atomic DB
-> writes, unit tests, and a CMake build that works identically on
-> **Windows, macOS, and Linux**.
+> This is a showcase project for a C++/Qt developer. It is engineered to be
+> production-quality: clean MVC-style layering, atomic DB writes, unit tests,
+> and a CMake build that works on **Windows, macOS, and Linux**.
 
 ## Features
 
@@ -20,7 +19,7 @@ database, no server required.
 
 ### Invoicing
 - Customers (name, email, phone, billing address)
-- Invoice editor with an arbitrary number of line items
+- Invoice editor with any number of line items
 - Per-line quantity, unit price, and tax rate (percent)
 - Live subtotal / tax / grand total
 - Auto invoice numbering (`INV-0001`, …)
@@ -34,26 +33,65 @@ database, no server required.
 
 ## Screenshots
 
-_(TBD — add after packaging: main window inventory tab, invoice editor, PDF
-output, reports tab.)_
+Inventory | Invoices
+:--------:|:--------:
+![Inventory](screenshots/tab_inventory.png) | ![Invoices](screenshots/tab_invoices.png)
 
-## Build
+Customers | Reports
+:--------:|:-------:
+![Customers](screenshots/tab_customers.png) | ![Reports](screenshots/tab_reports.png)
 
-Requirements: Qt 6.x (Widgets, Sql), CMake ≥ 3.16, a C++17 compiler.
+Invoice editor (line items + live totals) | Exported PDF
+:----------------------------------------:|:-----------:
+![Invoice editor](screenshots/invoice_editor.png) | ![PDF output](screenshots/pdf_export.png)
+
+## Install & run
+
+- **macOS**: download `Inventory-Invoice-macOS.dmg` from the
+  [releases](https://github.com/muhammadhamza9272/inventory-invoice/releases)
+  (or build from source below), drag the app to Applications, and open it.
+  See `docs/PACKAGING.md` for Windows installer notes and packaging details.
+- The data file lives at the platform's standard app-data location:
+  `~/Library/Application Support/inventory-invoice/` on macOS,
+  `%APPDATA%` on Windows.
+
+### Demo / screenshot mode
+
+Run the app with sample data so you can try it out immediately or take
+demos:
 
 ```sh
-cmake -S . -B build [ -DCMAKE_PREFIX_PATH=/path/to/qt/lib/cmake ]
-cmake --build build
-ctest --test-dir build     # run the test suite
-./build/inventory_invoice
+./build/inventory_invoice --demo                 # seed sample products/customers/invoices
+./build/inventory_invoice --demo --tab 1         # open on the Invoices tab
+./build/inventory_invoice --demo --edit-invoice 1  # open invoice #1 in the editor
+./build/inventory_invoice --demo --new-invoice   # open a blank New Invoice dialog
+./build/inventory_invoice --demo --demo-pdf /tmp  # export the latest invoice to a PDF and exit
 ```
 
-> On macOS with Homebrew Qt, the prefix path is
-> `/opt/homebrew/opt/qtbase/lib/cmake`.
+> `--demo` is a no-op if the database already has data (it never overwrites).
+> Tabs are indexed `0` Inventory, `1` Invoices, `2` Customers, `3` Reports.
 
-The application stores its database at the platform's standard application
-data location (e.g. `~/Library/Application Support/inventory-invoice/` on
-macOS, `%APPDATA%` on Windows).
+## Build from source
+
+Requirements: Qt 6.x (Widgets, Sql, Svg), CMake ≥ 3.16, a C++17 compiler.
+
+On macOS with Homebrew Qt:
+
+```sh
+cmake -S . -B build \
+    -DCMAKE_PREFIX_PATH=$(brew --prefix qtbase)/lib/cmake \
+    -DQt6Svg_DIR=$(brew --prefix qtsvg)/lib/cmake/Qt6Svg
+cmake --build build
+ctest --test-dir build                # run the test suite
+./build/inventory_invoice             # run the app
+```
+
+On Linux/Windows, `-DCMAKE_PREFIX_PATH` is normally not needed if Qt is on
+your default search path — the same three commands apply once configured.
+
+> **Note (Homebrew):** modules like `qtsvg` are installed as separate kegs, so
+> `CMAKE_PREFIX_PATH` alone won't find them. Pass `-DQt6Svg_DIR=…` explicitly,
+> as above. `packaging/mac/deploy.sh` does this automatically.
 
 ## Architecture
 
@@ -92,17 +130,20 @@ generation, and reporting aggregates.
 ctest --test-dir build --output-on-failure
 ```
 
+## Packaging
+
+- `packaging/mac/deploy.sh` produces a deployable `Inventory-Invoice-macOS.dmg`.
+- Windows: see `docs/PACKAGING.md` (Visual Studio / MinGW + windeployqt +
+  Inno Setup).
+
 ## Roadmap
 
 - [x] Core inventory + invoicing + PDF export + reports
-- [ ] Packaged installers (macOS `.app`, Windows, `.deb`)
+- [x] macOS `.app` bundle + DMG packaging
+- [ ] Windows (`.exe`) and `.deb` installers
 - [ ] Sales report charts
 - [ ] Backup / restore database
 - [ ] Multiple currencies / VAT presets
-
-## License
-
-MIT (TBD — confirm before publishing).
 
 _Project by a freelance C++/Qt developer. Built to demonstrate idiomatic,
 production-ready Qt engineering._
